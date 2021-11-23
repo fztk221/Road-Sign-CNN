@@ -1,6 +1,7 @@
 from sklearn.model_selection import train_test_split
 from keras.utils.np_utils import to_categorical
 import pickle_data as p
+
 '''Script for Preprocessing data in RGB'''
 
 # Parameters

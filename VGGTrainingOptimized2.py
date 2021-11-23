@@ -1,13 +1,11 @@
 from keras.applications.vgg16 import preprocess_input
 import pickle_data as p
-import talos as ta
-from CNN import vgg16_custom
-
+from CNN import vgg16_opt2
+from CNN import vgg16_opt3
 # Parameters
 num_of_classes = 43
 dataset_path = 'datasets/VGG/'  # path to location to load datasets from
-model_name = "vgg16_model3"
-scan_name = "vgg16_model3_scan"
+model_name = "vgg16_model_optimized3"
 
 # loading in Data
 file_names = ["X_train2.p", "X_test2.p", "X_validation2.p", "y_train2.p", "y_test2.p", "y_validation2.p"]
@@ -24,24 +22,8 @@ X_train = preprocess_input(X_train)
 X_test = preprocess_input(X_test)
 X_validation = preprocess_input(X_validation)
 
-b1=50
-b2=100
-b3=200
-# Hyper Parameter values to be tested
-par = {'dropout': [0, 0.2],
-       'nodes': [128, 256],
-       'steps_per_epoch': [X_train.shape[0]//b1, X_train.shape[0]//b2, X_train.shape[0]//b3],
-       'epochs': [30, 50, 70],
-       'batch_size': [b1,b2,b3]}
-
-# scanning
-t = ta.Scan(x=X_train,
-            y=y_train,
-            x_val=X_validation,
-            y_val=y_validation,
-            model=vgg16_custom,
-            params=par,
-            experiment_name='VGG16 model Scan')
+history, model = vgg16_opt3(X_train, y_train, X_validation, y_validation, X_train.shape[0])
 
 # store model and history in pickle files for later use
-p.pickle_scan(scan_name, t)
+model.save("models/" + model_name)
+p.pickle_model_history(model_name, history.history)

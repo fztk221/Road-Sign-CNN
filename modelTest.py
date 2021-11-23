@@ -1,4 +1,4 @@
-from matplotlib import pyplot as plt
+from plotting import plotting
 import pickle_data as p
 
 # Parameters
@@ -13,20 +13,5 @@ model = datasets[1]
 X_test = datasets[2]
 y_test = datasets[3]
 
-# plotting
-plt.figure(1)
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
-plt.legend(['training', 'validation'])
-plt.title('loss')
-plt.xlabel('epoch')
-plt.figure(2)
-plt.plot(history.history['accuracy'])
-plt.plot(history.history['val_accuracy'])
-plt.legend(['training', 'validation'])
-plt.title('Accuracy')
-plt.xlabel('epoch')
-plt.show()
-score = model.evaluate(X_test, y_test, verbose=0)
-print('Test Score:', score[0])
-print('Test Accuracy:', score[1])
+plotting(history.history, model, X_test, y_test)
+

@@ -39,7 +39,7 @@ for i, layer in enumerate(model.layers):
     print(i, layer.name, layer.trainable)
 print(model.summary())
 flat1 = Flatten()(model.output)
-class1 = Dense(250, activation='relu')(flat1)
+class1 = Dense(256, activation='relu')(flat1)
 output = Dense(43, activation='softmax')(class1)
 # define new model
 model = Model(inputs=model.inputs, outputs=output)
